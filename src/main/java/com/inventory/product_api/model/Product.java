@@ -3,6 +3,7 @@ package com.inventory.product_api.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
@@ -13,11 +14,14 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     private Long id;
-
+    @NotBlank(message = "Product name cannot be empty")
     private String name;
-    private double price;
-    private int quantity;
+    @Positive(message = "Price must be greater than 0")
+    private Double price;
+    @Min(value = 1, message = "Quantity must be at least 1")
+    private Integer quantity;
 	/**
 	 * @return the id
 	 */
@@ -45,25 +49,25 @@ public class Product {
 	/**
 	 * @return the price
 	 */
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	/**
 	 * @return the quantity
 	 */
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
     
