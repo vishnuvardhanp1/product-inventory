@@ -4,6 +4,7 @@ package com.inventory.product_api.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import com.inventory.product_api.model.Product;
@@ -34,9 +35,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        service.delete(id);
-        return "Deleted successfully";
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    	boolean isDeleted = service.delete(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok("Deleted successfully");
+        } else {
+            return ResponseEntity.status(404).body("Product not found");
+        }
     }
     
     @PutMapping("/{id}")

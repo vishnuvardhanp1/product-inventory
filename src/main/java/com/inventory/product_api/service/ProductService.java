@@ -28,8 +28,13 @@ public class ProductService {
         return repo.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
-        repo.deleteById(id);
+    public boolean delete(Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public ProductService(ProductRepository repo) {
