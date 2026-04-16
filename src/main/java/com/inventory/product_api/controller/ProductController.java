@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import com.inventory.product_api.model.Product;
 import com.inventory.product_api.service.ProductService;
+import com.inventory.product_api.util.JwtUtil;
 
 import jakarta.validation.Valid;
 
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
+	private static final String VALID_TOKEN = "mysecrettoken123";
 
     private final ProductService service;
 
@@ -87,10 +89,27 @@ public class ProductController {
     @GetMapping("/headers")
     public String getHeaders(
             @RequestHeader("client") String client,
-            @RequestHeader("version") String version) {
+            @RequestHeader("version") String version,
+            @RequestHeader(value = "Authorization", required = false) String token) {
+    	System.out.println("TOKEN RECEIVED: [" + token + "]");
+    	 try {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return "Unauthorized";
+        }
 
-        return "Client: " + client + ", Version: " + version;
+        String jwt = token.substring(7);
+        String user = JwtUtil.validateToken(jwt);
+        
+        return "Client: " + client + ", Version: " + version + ", User: " + user;
+    	 } catch (Exception e) {
+             return "Invalid or Expired Token";
+         }
+       
     }
+    
+    
+
+   
     
     public ProductController(ProductService service) {
         this.service = service;
