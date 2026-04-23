@@ -2,10 +2,11 @@ package com.inventory.product_api.model;
 
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-
+@Schema(description = "Product Entity representing inventory item")
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,12 +15,15 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+    @Schema(description = "Unique ID", example = "1")
     private Long id;
+    @Schema(description = "Product name", example = "iPhone 15")
     @NotBlank(message = "Product name cannot be empty")
     private String name;
+    @Schema(description = "Product price", example = "100000")
     @Positive(message = "Price must be greater than 0")
     private Double price;
+    @Schema(description = "Available quantity", example = "5")
     @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 	/**
