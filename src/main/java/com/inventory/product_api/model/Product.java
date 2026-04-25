@@ -17,6 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Unique ID", example = "1")
     private Long id;
+    @Column(unique = true)
     @Schema(description = "Product name", example = "iPhone 15")
     @NotBlank(message = "Product name cannot be empty")
     private String name;
