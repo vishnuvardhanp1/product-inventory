@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.*;
 
@@ -45,6 +46,14 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(409).body(
             Map.of("message", "Product already exists")
+        );
+    }
+    
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+
+        return ResponseEntity.badRequest().body(
+            Map.of("id", "Invalid ID format, must be a number")
         );
     }
 }

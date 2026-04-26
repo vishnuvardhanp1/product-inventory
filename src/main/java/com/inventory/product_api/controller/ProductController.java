@@ -30,9 +30,7 @@ public class ProductController {
             summary = "Create new product",
             description = "Add a new product to the inventory")
     public Product addProduct(@Valid @RequestBody Product product) {
-    	
         return service.save(product);
-    	
     }
 
     @GetMapping
